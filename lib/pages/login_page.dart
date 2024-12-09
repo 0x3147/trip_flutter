@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter/util/string_util.dart';
 import 'package:trip_flutter/util/view_util.dart';
+import 'package:trip_flutter/widget/input_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,26 +30,57 @@ class _LoginPageState extends State<LoginPage> {
   _background() {
     return [
       Positioned.fill(
-          child: Image.asset('images/login-bg1.jpg', fit: BoxFit.cover)
-      ),
+          child: Image.asset('images/login-bg1.jpg', fit: BoxFit.cover)),
       Positioned(
           child: Container(
-          decoration: const BoxDecoration(color: Colors.black54),
+        decoration: const BoxDecoration(color: Colors.black54),
       ))
     ];
   }
-  
+
   _content() {
     return Positioned.fill(
         left: 25,
         right: 25,
         child: ListView(
-          children:  [
+          children: [
             hiSpace(height: 100),
-            const Text('账号密码登录', style: TextStyle(fontSize: 26, color: Colors.white),),
-            hiSpace(height: 40)
+            const Text(
+              '账号密码登录',
+              style: TextStyle(fontSize: 26, color: Colors.white),
+            ),
+            hiSpace(height: 40),
+            InputWidget(
+              hint: "请输入账号",
+              onChange: (text) {
+                username = text;
+                _checkInput();
+              },
+            ),
+            hiSpace(height: 10),
+            InputWidget(
+              hint: "请输入密码",
+              obscureText: true,
+              onChange: (text) {
+                password = text;
+                _checkInput();
+              },
+            )
           ],
-        )
-    );
+        ));
+  }
+
+  void _checkInput() {
+    bool enable;
+
+    if(isNotEmpty(username) && isNotEmpty(password)) {
+      enable = true;
+    } else {
+      enable = false;
+    }
+
+    setState(() {
+      loginEnable = enable;
+    });
   }
 }
