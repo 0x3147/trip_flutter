@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trip_flutter/util/string_util.dart';
 import 'package:trip_flutter/util/view_util.dart';
 import 'package:trip_flutter/widget/input_widget.dart';
+import 'package:trip_flutter/widget/login_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -65,7 +66,10 @@ class _LoginPageState extends State<LoginPage> {
                 password = text;
                 _checkInput();
               },
-            )
+            ),
+            hiSpace(height: 45),
+            LoginButton(
+                title: '登录', enable: loginEnable, onPressed: () => _login())
           ],
         ));
   }
@@ -73,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
   void _checkInput() {
     bool enable;
 
-    if(isNotEmpty(username) && isNotEmpty(password)) {
+    if (isNotEmpty(username) && isNotEmpty(password)) {
       enable = true;
     } else {
       enable = false;
@@ -83,4 +87,6 @@ class _LoginPageState extends State<LoginPage> {
       loginEnable = enable;
     });
   }
+
+  _login() {}
 }

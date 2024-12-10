@@ -1,5 +1,5 @@
 bool isNotEmpty(String? text) {
-  return text?.isEmpty ?? false;
+  return !(text?.isEmpty ?? true);
 }
 
 bool isEmpty(String? text) {
