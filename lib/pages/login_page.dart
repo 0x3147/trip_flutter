@@ -3,6 +3,7 @@ import 'package:trip_flutter/util/string_util.dart';
 import 'package:trip_flutter/util/view_util.dart';
 import 'package:trip_flutter/widget/input_widget.dart';
 import 'package:trip_flutter/widget/login_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -69,7 +70,18 @@ class _LoginPageState extends State<LoginPage> {
             ),
             hiSpace(height: 45),
             LoginButton(
-                title: '登录', enable: loginEnable, onPressed: () => _login())
+                title: '登录', enable: loginEnable, onPressed: () => _login()),
+            hiSpace(height: 15),
+            Align(
+              alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: () => _jumpRegistration(),
+                child: const Text(
+                  '注册账号',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            )
           ],
         ));
   }
@@ -89,4 +101,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _login() {}
+
+  _jumpRegistration() async {
+    Uri uri = Uri.parse('https://api.devio.org/uapi/swagger-ui.html#/Account/registrationUsingPOST');
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch the URL: $uri';
+    }
+  }
 }
