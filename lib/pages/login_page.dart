@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter/dao/login_dao.dart';
 import 'package:trip_flutter/util/string_util.dart';
 import 'package:trip_flutter/util/view_util.dart';
 import 'package:trip_flutter/widget/input_widget.dart';
@@ -100,10 +101,18 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  _login() {}
+  _login() async {
+    try {
+      var result = await LoginDao.login(userName: username!, password: password!);
+      print('登录成功');
+    } catch (e) {
+      print(e);
+    }
+  }
 
   _jumpRegistration() async {
-    Uri uri = Uri.parse('https://api.devio.org/uapi/swagger-ui.html#/Account/registrationUsingPOST');
+    Uri uri = Uri.parse(
+        'https://api.devio.org/uapi/swagger-ui.html#/Account/registrationUsingPOST');
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch the URL: $uri';
     }
