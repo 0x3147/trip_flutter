@@ -42,7 +42,7 @@ class LoginDao {
   }
 
   static getBoardingPass() {
-    HiCache.getInstance().get(boardingPass);
+    return HiCache.getInstance().get(boardingPass);
   }
 
   static logout() {
