@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
+import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/util/string_util.dart';
 import 'package:trip_flutter/util/view_util.dart';
 import 'package:trip_flutter/widget/input_widget.dart';
@@ -24,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           ..._background(),
-          _content(),
+          _content(context),
         ],
       ),
     );
@@ -41,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     ];
   }
 
-  _content() {
+  _content(context) {
     return Positioned.fill(
         left: 25,
         right: 25,
@@ -71,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             hiSpace(height: 45),
             LoginButton(
-                title: '登录', enable: loginEnable, onPressed: () => _login()),
+                title: '登录', enable: loginEnable, onPressed: () => _login(context)),
             hiSpace(height: 15),
             Align(
               alignment: Alignment.centerRight,
@@ -101,10 +104,11 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  _login() async {
+  _login(context) async {
     try {
       var result = await LoginDao.login(userName: username!, password: password!);
       print('登录成功');
+      NavigatorUtil.goToHome(context);
     } catch (e) {
       print(e);
     }

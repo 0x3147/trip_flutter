@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter_hi_cache/flutter_hi_cache.dart';
 import 'package:http/http.dart' as http;
+import 'package:trip_flutter/util/navigator_util.dart';
 
 import 'header_util.dart';
 
@@ -10,10 +12,11 @@ class LoginDao {
 
   static login({required String userName, required String password}) async {
     Map<String, String> paramsMap = {};
-    paramsMap['username'] = userName;
+    paramsMap['userName'] = userName;
     paramsMap['password'] = password;
+    print(paramsMap);
 
-    var uri = Uri.https('api.devio.org', '/uapi/user/login', paramsMap);
+    var uri = Uri.https('api.geekailab.com', '/uapi/user/login', paramsMap);
     
     final response = await http.post(uri, headers: hiHeaders());
 
@@ -40,5 +43,10 @@ class LoginDao {
 
   static getBoardingPass() {
     HiCache.getInstance().get(boardingPass);
+  }
+
+  static logout() {
+    HiCache.getInstance().remove(boardingPass);
+    NavigatorUtil.goToLogin();
   }
 }
