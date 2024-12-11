@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
 import 'package:trip_flutter/util/navigator_util.dart';
