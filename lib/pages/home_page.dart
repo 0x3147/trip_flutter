@@ -9,19 +9,30 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  get _logoutBtn => ElevatedButton(
-      onPressed: () => LoginDao.logout(), child: const Text("登出"));
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  get _logoutBtn => TextButton(
+      onPressed: () => LoginDao.logout(),
+      child: const Text(
+        "登出",
+        style: TextStyle(color: Colors.white),
+      ));
 
   @override
   Widget build(BuildContext context) {
-    NavigatorUtil.updateContext(context);
+    super.build(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('首页'),
+        backgroundColor: Colors.blue,
+        title: const Text(
+          '首页',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [_logoutBtn],
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
