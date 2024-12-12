@@ -10,7 +10,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
+  static const appBarScrollOffset = 100;
+
   final bannerList = [
     'https://o.devio.org/images/fa/cat-4098058__340.webp',
     'https://o.devio.org/images/other/as-cover.png',
@@ -18,6 +21,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     'https://o.devio.org/images/fa/cat-4098058__340.webp',
     'https://o.devio.org/images/other/as-cover.png',
   ];
+
+  double appBarAlpha = 1;
 
   get _logoutBtn => TextButton(
       onPressed: () => LoginDao.logout(),
@@ -31,17 +36,21 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     super.build(context);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text(
-          '首页',
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [_logoutBtn],
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          BannerWidget(bannerList: bannerList)
+          MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
+              child: NotificationListener(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollNotification &&
+                        scrollNotification.depth == 0) {
+                      _onScroll(scrollNotification.metrics.pixels);
+                    }
+                    return false;
+                  },
+                  child: _listView)),
+          _appBar
         ],
       ),
     );
@@ -49,4 +58,43 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   @override
   bool get wantKeepAlive => true;
+
+  get _appBar => Opacity(
+        opacity: appBarAlpha,
+        child: Container(
+          height: 80,
+          decoration: const BoxDecoration(color: Colors.white),
+          child: const Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 40),
+              child: Text('首页'),
+            ),
+          ),
+        ),
+      );
+
+  get _listView => ListView(
+        children: [
+          BannerWidget(bannerList: bannerList),
+          _logoutBtn,
+          const SizedBox(
+            height: 800,
+            child: ListTile(
+              title: Text('测'),
+            ),
+          )
+        ],
+      );
+
+  void _onScroll(double offset) {
+    double alpha = offset / appBarScrollOffset;
+    if (alpha < 0) {
+      alpha = 0;
+    } else if (alpha > 1) {
+      alpha = 1;
+    }
+    setState(() {
+      appBarAlpha = alpha;
+    });
+  }
 }
