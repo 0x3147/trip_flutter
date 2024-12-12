@@ -14,7 +14,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   final bannerList = [
     'https://o.devio.org/images/fa/cat-4098058__340.webp',
     'https://o.devio.org/images/other/as-cover.png',
-    'https://o.devio.org/images/other/rn-cover2.png'
+    'https://o.devio.org/images/other/rn-cover2.png',
+    'https://o.devio.org/images/fa/cat-4098058__340.webp',
+    'https://o.devio.org/images/other/as-cover.png',
   ];
 
   get _logoutBtn => TextButton(

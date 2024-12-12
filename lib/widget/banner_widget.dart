@@ -34,7 +34,8 @@ class _BannerWidgetState extends State<BannerWidget> {
                   _current = index;
                 });
               }),
-        )
+        ),
+        Positioned(bottom: 10, left: 0, right: 0, child: _indicator())
       ],
     );
   }
@@ -45,6 +46,26 @@ class _BannerWidgetState extends State<BannerWidget> {
         // NavigatorUtil
       },
       child: Image.network(imageUrl, width: width, fit: BoxFit.cover),
+    );
+  }
+
+  _indicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widget.bannerList.asMap().entries.map((e) {
+        return GestureDetector(
+          onTap: () => _controller.animateToPage(e.key),
+          child: Container(
+            width: 6,
+            height: 6,
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color:
+                    (Colors.white).withOpacity(_current == e.key ? 0.9 : 0.4)),
+          ),
+        );
+      }).toList(),
     );
   }
 }
