@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trip_flutter/dao/home_dao.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
+import 'package:trip_flutter/model/home_model.dart';
 import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/widget/banner_widget.dart';
 
 class HomePage extends StatefulWidget {
+  static Config? configModel;
+
   const HomePage({super.key});
 
   @override
@@ -22,13 +25,11 @@ class _HomePageState extends State<HomePage>
 
   static const appBarScrollOffset = 100;
 
-  final bannerList = [
-    'https://o.devio.org/images/fa/cat-4098058__340.webp',
-    'https://o.devio.org/images/other/as-cover.png',
-    'https://o.devio.org/images/other/rn-cover2.png',
-    'https://o.devio.org/images/fa/cat-4098058__340.webp',
-    'https://o.devio.org/images/other/as-cover.png',
-  ];
+  List<CommonModel> bannerList = [];
+  List<CommonModel> localNavList = [];
+  List<CommonModel> subNavList = [];
+  GridNav? gridNavNavModel;
+  SalesBox? salesBoxModel;
 
   double appBarAlpha = 1;
 
@@ -85,7 +86,7 @@ class _HomePageState extends State<HomePage>
         children: [
           BannerWidget(bannerList: bannerList),
           _logoutBtn,
-          Text(bodyString),
+          Text(gridNavNavModel?.flight?.item1?.title ?? ''),
           const SizedBox(
             height: 800,
             child: ListTile(
@@ -107,13 +108,17 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  var bodyString = '';
-
   Future<void> _handleRefresh() async {
     try {
-      String? result = await HomeDao.fetch();
+      HomeModel model = await HomeDao.fetch();
+
       setState(() {
-        bodyString = result ?? '';
+        HomePage.configModel = model.config;
+        localNavList = model.localNavList ?? [];
+        subNavList = model.subNavList ?? [];
+        gridNavNavModel = model.gridNav;
+        salesBoxModel = model.salesBox;
+        bannerList = model.bannerList ?? [];
       });
     } catch (e) {
       debugPrint(e.toString());

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:trip_flutter/model/home_model.dart';
 import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/util/screen_adapter_helper.dart';
 
 class BannerWidget extends StatefulWidget {
-  final List<String> bannerList;
+  final List<CommonModel> bannerList;
 
   const BannerWidget({super.key, required this.bannerList});
 
@@ -40,12 +41,12 @@ class _BannerWidgetState extends State<BannerWidget> {
     );
   }
 
-  Widget _tabImage(String imageUrl, width) {
+  Widget _tabImage(CommonModel model, width) {
     return GestureDetector(
       onTap: () {
         // NavigatorUtil
       },
-      child: Image.network(imageUrl, width: width, fit: BoxFit.cover),
+      child: Image.network(model.icon!, width: width, fit: BoxFit.cover),
     );
   }
 
