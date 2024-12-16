@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter/dao/home_dao.dart';
 import 'package:trip_flutter/dao/login_dao.dart';
 import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/widget/banner_widget.dart';
@@ -12,6 +13,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _handleRefresh();
+  }
+
   static const appBarScrollOffset = 100;
 
   final bannerList = [
@@ -77,6 +85,7 @@ class _HomePageState extends State<HomePage>
         children: [
           BannerWidget(bannerList: bannerList),
           _logoutBtn,
+          Text(bodyString),
           const SizedBox(
             height: 800,
             child: ListTile(
@@ -96,5 +105,18 @@ class _HomePageState extends State<HomePage>
     setState(() {
       appBarAlpha = alpha;
     });
+  }
+
+  var bodyString = '';
+
+  Future<void> _handleRefresh() async {
+    try {
+      String? result = await HomeDao.fetch();
+      setState(() {
+        bodyString = result ?? '';
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

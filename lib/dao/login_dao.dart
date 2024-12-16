@@ -14,7 +14,6 @@ class LoginDao {
     Map<String, String> paramsMap = {};
     paramsMap['userName'] = userName;
     paramsMap['password'] = password;
-    print(paramsMap);
 
     var uri = Uri.https('api.geekailab.com', '/uapi/user/login', paramsMap);
     
