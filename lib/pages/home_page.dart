@@ -4,6 +4,7 @@ import 'package:trip_flutter/dao/login_dao.dart';
 import 'package:trip_flutter/model/home_model.dart';
 import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/widget/banner_widget.dart';
+import 'package:trip_flutter/widget/grid_nav_widget.dart';
 import 'package:trip_flutter/widget/local_nav_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage>
   List<CommonModel> bannerList = [];
   List<CommonModel> localNavList = [];
   List<CommonModel> subNavList = [];
-  GridNav? gridNavNavModel;
+  GridNav? gridNavModel;
   SalesBox? salesBoxModel;
 
   double appBarAlpha = 1;
@@ -87,6 +88,7 @@ class _HomePageState extends State<HomePage>
         children: [
           BannerWidget(bannerList: bannerList),
           LocalNavWidget(localNavList: localNavList),
+          if (gridNavModel != null) GridNavWidget(gridNavModel: gridNavModel!),
           _logoutBtn,
           const SizedBox(
             height: 800,
@@ -117,7 +119,7 @@ class _HomePageState extends State<HomePage>
         HomePage.configModel = model.config;
         localNavList = model.localNavList ?? [];
         subNavList = model.subNavList ?? [];
-        gridNavNavModel = model.gridNav;
+        gridNavModel = model.gridNav;
         salesBoxModel = model.salesBox;
         bannerList = model.bannerList ?? [];
       });
