@@ -4,6 +4,7 @@ import 'package:trip_flutter/dao/login_dao.dart';
 import 'package:trip_flutter/model/home_model.dart';
 import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/widget/banner_widget.dart';
+import 'package:trip_flutter/widget/local_nav_widget.dart';
 
 class HomePage extends StatefulWidget {
   static Config? configModel;
@@ -85,8 +86,8 @@ class _HomePageState extends State<HomePage>
   get _listView => ListView(
         children: [
           BannerWidget(bannerList: bannerList),
+          LocalNavWidget(localNavList: localNavList),
           _logoutBtn,
-          Text(gridNavNavModel?.flight?.item1?.title ?? ''),
           const SizedBox(
             height: 800,
             child: ListTile(
