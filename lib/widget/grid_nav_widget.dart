@@ -8,12 +8,15 @@ class GridNavWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PhysicalModel(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(6),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: _gridNavItems(context),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
+      child: PhysicalModel(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(6),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: _gridNavItems(context),
+        ),
       ),
     );
   }
@@ -31,6 +34,8 @@ class GridNavWidget extends StatelessWidget {
   Widget _gridNavItem(BuildContext context, Hotel gridNavItem, bool first) {
     List<Widget> items = [];
     items.add(_mainItem(context, gridNavItem.mainItem!));
+    items.add(_doubleItem(context, gridNavItem.item1!, gridNavItem.item2!));
+    items.add(_doubleItem(context, gridNavItem.item3!, gridNavItem.item4!));
 
     List<Widget> expandItems = [];
 
@@ -67,6 +72,7 @@ class GridNavWidget extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 11),
+              alignment: Alignment.topCenter,
               child: Text(
                 model.title!,
                 style: const TextStyle(fontSize: 14, color: Colors.white),
@@ -81,6 +87,39 @@ class GridNavWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: widget,
+    );
+  }
+
+  Widget _doubleItem(
+      BuildContext context, CommonModel topItem, CommonModel bottomItem) {
+    return Column(
+      children: [
+        Expanded(child: _item(context, topItem, true)),
+        Expanded(child: _item(context, bottomItem, false)),
+      ],
+    );
+  }
+
+  _item(BuildContext context, CommonModel item, bool first) {
+    BorderSide borderSide = const BorderSide(
+      width: 0.8,
+      color: Colors.white
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          left: borderSide,
+          bottom: first ? borderSide : BorderSide.none
+        )
+      ),
+      child: _wrapGesture(
+          context,
+          Center(
+            child: Text(item.title!,
+                style: const TextStyle(fontSize: 14, color: Colors.white)),
+          ),
+          item),
     );
   }
 }
