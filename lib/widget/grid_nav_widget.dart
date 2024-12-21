@@ -9,7 +9,7 @@ class GridNavWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
+      padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
       child: PhysicalModel(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(6),

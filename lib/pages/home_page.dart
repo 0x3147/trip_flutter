@@ -6,6 +6,7 @@ import 'package:trip_flutter/util/navigator_util.dart';
 import 'package:trip_flutter/widget/banner_widget.dart';
 import 'package:trip_flutter/widget/grid_nav_widget.dart';
 import 'package:trip_flutter/widget/local_nav_widget.dart';
+import 'package:trip_flutter/widget/sub_nav_widget.dart';
 
 class HomePage extends StatefulWidget {
   static Config? configModel;
@@ -35,18 +36,20 @@ class _HomePageState extends State<HomePage>
 
   double appBarAlpha = 1;
 
-  get _logoutBtn => TextButton(
-      onPressed: () => LoginDao.logout(),
-      child: const Text(
-        "登出",
-        style: TextStyle(color: Colors.white),
-      ));
+  get _logoutBtn =>
+      TextButton(
+          onPressed: () => LoginDao.logout(),
+          child: const Text(
+            "登出",
+            style: TextStyle(color: Colors.white),
+          ));
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
     return Scaffold(
+      backgroundColor: const Color(0xfff2f2f2),
       body: Stack(
         children: [
           MediaQuery.removePadding(
@@ -70,7 +73,8 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => true;
 
-  get _appBar => Opacity(
+  get _appBar =>
+      Opacity(
         opacity: appBarAlpha,
         child: Container(
           height: 80,
@@ -84,11 +88,13 @@ class _HomePageState extends State<HomePage>
         ),
       );
 
-  get _listView => ListView(
+  get _listView =>
+      ListView(
         children: [
           BannerWidget(bannerList: bannerList),
           LocalNavWidget(localNavList: localNavList),
           if (gridNavModel != null) GridNavWidget(gridNavModel: gridNavModel!),
+          SubNavWidget(subNavList: subNavList,),
           _logoutBtn,
           const SizedBox(
             height: 800,
